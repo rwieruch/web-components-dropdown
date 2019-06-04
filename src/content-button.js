@@ -112,4 +112,4 @@ class ContentButton extends HTMLElement {
   }
 }
 
-window.customElements.define('content-button', ContentButton);
+window.customElements.define('road-content-button', ContentButton);

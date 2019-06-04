@@ -1,10 +1,12 @@
 {
-  "name": "web-components-dropdown",
+  "name": "road-dropdown",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "description": "Dropdown with Web Components",
+  "main": "lib/bundle.js",
   "scripts": {
-    "start": "webpack-dev-server --config ./webpack.config.js --mode development",
+    "start": "webpack-dev-server --config ./webpack.dev.config.js --mode development",
+    "build": "webpack --config ./webpack.prod.config.js --mode=production",
+    "prepare": "npm run build",
     "test": "echo \"Error: no test specified\" && exit 0"
   },
   "keywords": [],

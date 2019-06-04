@@ -122,7 +122,7 @@ template.innerHTML = `
   <div class="dropdown">
     <span class="label">Label</span>
 
-    <content-button as-atom>Content</content-button>
+    <road-content-button as-atom>Content</road-content-button>
 
     <ul class="dropdown-list"></ul>
   </div>
@@ -143,7 +143,9 @@ class Dropdown extends HTMLElement {
     this.$label = this._sR.querySelector('.label');
     this.$dropdown = this._sR.querySelector('.dropdown');
     this.$dropdownList = this._sR.querySelector('.dropdown-list');
-    this.$contentButton = this._sR.querySelector('content-button');
+    this.$contentButton = this._sR.querySelector(
+      'road-content-button'
+    );
 
     this.$contentButton.addEventListener('onClick', this.toggleOpen);
   }
@@ -216,4 +218,4 @@ class Dropdown extends HTMLElement {
   }
 }
 
-window.customElements.define('my-dropdown', Dropdown);
+window.customElements.define('road-dropdown', Dropdown);
