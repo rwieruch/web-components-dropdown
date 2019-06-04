@@ -85,7 +85,7 @@ template.innerHTML = `
       border-right: none;
       border-left: none;
       border-width: 0;
-      font-size: 1.5rem;
+      font-size: 16px;
       flex-shrink: 0;
       height: 40px;
     }
