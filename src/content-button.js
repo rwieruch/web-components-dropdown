@@ -22,7 +22,7 @@ template.innerHTML = `
       overflow: hidden;
       position: relative;
       padding: 0 16px;
-      font-size: 1rem;
+      font-size: 16px;
       font-weight: bold;
       text-overflow: ellipsis;
       white-space: nowrap;

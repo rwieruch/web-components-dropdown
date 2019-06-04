@@ -31,7 +31,7 @@ template.innerHTML = `
       display: block;
       margin-bottom: 5px;
       color: ${COLORS.trblack.hex};
-      font-size: 1rem;
+      font-size: 16px;
       font-weight: normal;
       line-height: 16px;
     }
@@ -41,7 +41,7 @@ template.innerHTML = `
       position: relative;
       padding-right: 45px;
       padding-left: 8px;
-      font-size: 1.5rem;
+      font-size: 16px;
       font-weight: 600;
       text-align: left;
       white-space: nowrap;
@@ -53,8 +53,6 @@ template.innerHTML = `
       top: 6px;
       right: 13px;
       color: ${COLORS.trgrey3.hex};
-      font-family: uid-iconfont;
-      font-size: 1.7rem;
     }
 
     button:active:after,

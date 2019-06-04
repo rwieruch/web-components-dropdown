@@ -1,6 +1,6 @@
 {
   "name": "road-dropdown",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Dropdown with Web Components",
   "main": "lib/bundle.js",
   "scripts": {
