@@ -192,6 +192,10 @@ class Dropdown extends HTMLElement {
           this.option = key;
           this.open = false;
 
+          this.dispatchEvent(
+            new CustomEvent('onChange', { detail: { option: key } })
+          );
+
           this.render();
         });
 
