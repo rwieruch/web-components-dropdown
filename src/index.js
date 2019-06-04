@@ -76,6 +76,7 @@ template.innerHTML = `
       overflow-y: auto;
       margin: 4px 0 0;
       padding: 0;
+      background-color: ${COLORS.trwhite.hex};
       border: 1px solid ${COLORS.trgrey2.hex};
       box-shadow: 0 2px 4px 0 rgba(${
         COLORS.trblack.rgb
