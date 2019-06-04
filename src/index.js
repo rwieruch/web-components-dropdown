@@ -64,7 +64,13 @@ template.innerHTML = `
       color: ${COLORS.trgrey5.hex};
     }
 
+    .dropdown-list-container {
+      position: relative;
+    }
+
     .dropdown-list {
+      position: absolute;
+      width: 100%;
       display: none;
       max-height: 192px;
       overflow-y: auto;
@@ -122,7 +128,9 @@ template.innerHTML = `
 
     <road-content-button as-atom>Content</road-content-button>
 
-    <ul class="dropdown-list"></ul>
+    <div class="dropdown-list-container">
+      <ul class="dropdown-list"></ul>
+    </div>
   </div>
 `;
 
