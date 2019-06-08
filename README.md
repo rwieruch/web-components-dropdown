@@ -68,7 +68,7 @@ import 'road-dropdown';
 const Dropdown = ({ label, option, options, onChange }) => {
   const ref = React.createRef();
 
-  React.useEffect(() => {
+  React.useLayoutEffect(() => {
     const handleChange = customEvent => onChange(customEvent.detail);
 
     ref.current.addEventListener('onChange', handleChange);
