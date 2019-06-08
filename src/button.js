@@ -9,7 +9,7 @@ template.innerHTML = `
 
     ${basicAtom}
 
-    .button-container {
+   .button-container {
       padding: 8px;
     }
 
@@ -28,7 +28,6 @@ template.innerHTML = `
       white-space: nowrap;
       cursor: pointer;
       outline: none;
-
       width: 100%;
       height: 40px;
     }
@@ -54,7 +53,6 @@ template.innerHTML = `
     button.icon-btn {
       padding: 0;
       font-size: 0;
-
       width: 50px;
       min-width: 50px;
     }
@@ -65,26 +63,28 @@ template.innerHTML = `
     }
   </style>
 
-  <div class="button-container">
+  <div class="container">
     <button class="basic-atom">Label</button>
   </div>
 `;
 
-class ContentButton extends HTMLElement {
+class Button extends HTMLElement {
   constructor() {
     super();
 
     this._shadowRoot = this.attachShadow({ mode: 'open' });
     this._shadowRoot.appendChild(template.content.cloneNode(true));
 
-    this.$buttonContainer = this._shadowRoot.querySelector(
-      '.button-container'
-    );
+    this.$container = this._shadowRoot.querySelector('.container');
     this.$button = this._shadowRoot.querySelector('button');
 
-    this.$button.addEventListener('click', () =>
-      this.dispatchEvent(new CustomEvent('onClick'))
-    );
+    this.$button.addEventListener('click', () => {
+      this.dispatchEvent(
+        new CustomEvent('onClick', {
+          detail: 'Hello from within the Custom Element',
+        })
+      );
+    });
   }
 
   connectedCallback() {
@@ -94,7 +94,15 @@ class ContentButton extends HTMLElement {
   }
 
   updateAsAtom() {
-    this.$buttonContainer.style.padding = '0px';
+    this.$container.style.padding = '0px';
+  }
+
+  get label() {
+    return this.getAttribute('label');
+  }
+
+  set label(value) {
+    this.setAttribute('label', value);
   }
 
   static get observedAttributes() {
@@ -102,8 +110,6 @@ class ContentButton extends HTMLElement {
   }
 
   attributeChangedCallback(name, oldVal, newVal) {
-    this[name] = newVal;
-
     this.render();
   }
 
@@ -112,4 +118,4 @@ class ContentButton extends HTMLElement {
   }
 }
 
-window.customElements.define('road-content-button', ContentButton);
+window.customElements.define('road-button', Button);

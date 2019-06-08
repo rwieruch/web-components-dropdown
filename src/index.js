@@ -2,7 +2,7 @@ import globalStyle from './global-style.js';
 import basicAtom from './basic-atom.js';
 import * as COLORS from './colors.js';
 
-import './content-button.js';
+import './button.js';
 
 const template = document.createElement('template');
 
@@ -16,10 +16,6 @@ template.innerHTML = `
       box-sizing: border-box;
       padding: 3px 8px 8px;
       cursor: pointer;
-    }
-
-    .dropdown.open button:after {
-      content: '\ea09';
     }
 
     .dropdown.open .dropdown-list {
@@ -45,23 +41,6 @@ template.innerHTML = `
       font-weight: 600;
       text-align: left;
       white-space: nowrap;
-    }
-
-    button:after {
-      content: '\ea05';
-      position: absolute;
-      top: 6px;
-      right: 13px;
-      color: ${COLORS.trgrey3.hex};
-    }
-
-    button:active:after,
-    button:hover:after {
-      color: ${COLORS.trblue3.hex};
-    }
-
-    button:disabled:after {
-      color: ${COLORS.trgrey5.hex};
     }
 
     .dropdown-list-container {
@@ -127,7 +106,7 @@ template.innerHTML = `
   <div class="dropdown">
     <span class="label">Label</span>
 
-    <road-content-button as-atom>Content</road-content-button>
+    <road-button as-atom>Content</road-button>
 
     <div class="dropdown-list-container">
       <ul class="dropdown-list"></ul>
@@ -144,17 +123,51 @@ class Dropdown extends HTMLElement {
 
     this.open = false;
 
-    this.render = this.render.bind(this);
-    this.toggleOpen = this.toggleOpen.bind(this);
-
     this.$label = this._sR.querySelector('.label');
+    this.$button = this._sR.querySelector('road-button');
     this.$dropdown = this._sR.querySelector('.dropdown');
     this.$dropdownList = this._sR.querySelector('.dropdown-list');
-    this.$contentButton = this._sR.querySelector(
-      'road-content-button'
-    );
 
-    this.$contentButton.addEventListener('onClick', this.toggleOpen);
+    this.$button.addEventListener(
+      'onClick',
+      this.toggleOpen.bind(this)
+    );
+  }
+
+  static get observedAttributes() {
+    return ['label', 'option', 'options'];
+  }
+
+  get label() {
+    return this.getAttribute('label');
+  }
+
+  set label(value) {
+    this.setAttribute('label', value);
+  }
+
+  get option() {
+    return this.getAttribute('option');
+  }
+
+  set option(value) {
+    this.setAttribute('option', value);
+  }
+
+  get options() {
+    return JSON.parse(this.getAttribute('options'));
+  }
+
+  set options(value) {
+    this.setAttribute('options', JSON.stringify(value));
+  }
+
+  toggleOpen(event) {
+    this.open = !this.open;
+
+    this.open
+      ? this.$dropdown.classList.add('open')
+      : this.$dropdown.classList.remove('open');
   }
 
   static get observedAttributes() {
@@ -162,70 +175,46 @@ class Dropdown extends HTMLElement {
   }
 
   attributeChangedCallback(name, oldVal, newVal) {
-    this[name] = newVal;
-
-    switch (name) {
-      case 'options':
-        this.options = JSON.parse(newVal);
-        break;
-      default:
-        this[name] = newVal;
-    }
-
-    this.render();
-  }
-
-  toggleOpen(event) {
-    this.open = !this.open;
-
     this.render();
   }
 
   render() {
+    this.$label.innerHTML = this.label;
+
     if (this.options) {
-      this.$dropdownList.innerHTML = '';
-
-      Object.keys(this.options).forEach(key => {
-        let option = this.options[key];
-        let $option = document.createElement('li');
-        $option.innerHTML = option.label;
-        $option.setAttribute('id', key);
-
-        $option.classList.add('basic-atom');
-
-        if (this.option && this.option === key) {
-          $option.classList.add('selected');
-        }
-
-        $option.addEventListener('click', () => {
-          this.option = key;
-          this.open = false;
-
-          this.dispatchEvent(
-            new CustomEvent('onChange', { detail: key })
-          );
-
-          this.render();
-        });
-
-        this.$dropdownList.appendChild($option);
-      });
-    }
-
-    if (this.label) {
-      this.$label.innerHTML = this.label;
-    }
-
-    if (this.option && this.options) {
-      this.$contentButton.setAttribute(
+      this.$button.setAttribute(
         'label',
         this.options[this.option].label
       );
     }
 
-    this.open
-      ? this.$dropdown.classList.add('open')
-      : this.$dropdown.classList.remove('open');
+    this.$dropdownList.innerHTML = '';
+
+    Object.keys(this.options || {}).forEach(key => {
+      let option = this.options[key];
+      let $option = document.createElement('li');
+
+      $option.innerHTML = option.label;
+      $option.classList.add('basic-atom');
+
+      if (this.option && this.option === key) {
+        $option.classList.add('selected');
+      }
+
+      $option.addEventListener('click', () => {
+        this.option = key;
+
+        this.toggleOpen();
+
+        this.dispatchEvent(
+          new CustomEvent('onChange', { detail: key })
+        );
+
+        this.render();
+      });
+
+      this.$dropdownList.appendChild($option);
+    });
   }
 }
 
